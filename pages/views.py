@@ -1,6 +1,7 @@
 from django.views import generic as baseviews
 from django.urls import reverse_lazy
 from .models import Page
+from .forms import PageForm
 
 # Create your views here.
 class PagesListView(baseviews.ListView):
@@ -11,7 +12,7 @@ class PageDetailView(baseviews.detail.DetailView):
 
 class PageCreateView(baseviews.CreateView):
     model = Page
-    fields = ['title', 'content', 'order']
+    form_class = PageForm
     success_url = reverse_lazy('pages:pages')
 
 class PageUpdateView(baseviews.UpdateView):
