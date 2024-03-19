@@ -1,14 +1,18 @@
 from django.views import generic as bv
 from django.urls import reverse_lazy
-from django.shortcuts import redirect
+# from django.shortcuts import redirect
+from django.contrib.admin.views.decorators import staff_member_required
+from django.utils.decorators import method_decorator
 from .models import Page
 from .forms import PageForm
 
 class StaffRequiredMix(object):
+    
+    @method_decorator(staff_member_required)
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_staff:
-            print('Entrada no autorizada retornando a login')
-            return redirect(reverse_lazy('admin:login'))
+        # if not request.user.is_staff:
+        #     print('Entrada no autorizada retornando a login')
+        #     return redirect(reverse_lazy('admin:login'))
         return super().dispatch(request, *args, **kwargs)
     
 # Create your views here.
