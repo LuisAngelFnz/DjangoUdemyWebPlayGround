@@ -21,5 +21,7 @@ from pages.urls import pages_urlpatterns
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
-    path('pages/', include((pages_urlpatterns,'pages')))
+    path('pages/', include((pages_urlpatterns,'pages'))),
+    ##Auth paths
+    path('accounts/', include('django.contrib.auth.urls'))
 ]
