@@ -6,8 +6,7 @@ from django.utils.decorators import method_decorator
 from .models import Page
 from .forms import PageForm
 
-    
-@method_decorator(staff_member_required, name='dispatch')
+
 class PagesListView(bv.ListView):
     model = Page
 
