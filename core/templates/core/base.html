@@ -36,7 +36,7 @@
                 {% if not request.user.is_authenticated %}
                   <a class="nav-link" href="{% url 'login'  %}">Acceder</a>
                 {% else %}
-                  <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
+                  <form id="logout-form" method="post" action="{% url 'logout' %}">
                     {% csrf_token %}
                     <button type="submit" class="nav-link">Salir</button>
                   </form>
