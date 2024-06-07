@@ -1,10 +1,10 @@
-from django.views.generic import CreateView,TemplateView
-from django.urls import reverse_lazy
-from django import forms
-from django.utils.decorators import method_decorator
+from django.views.generic import CreateView,UpdateView
 from django.contrib.auth.decorators import login_required
-
-from .forms import UserCreationFormWithEmail
+from django.utils.decorators import method_decorator
+from django.urls import reverse_lazy
+from .forms import UserCreationFormWithEmail, ProfileForm
+from .models import Profile
+from django import forms
 
 
 class SignUpView(CreateView):
@@ -32,5 +32,11 @@ class SignUpView(CreateView):
         return formData
 
 @method_decorator(login_required, name='dispatch')
-class ProfileUpdate(TemplateView):
+class ProfileUpdate(UpdateView):
+    form_class    = ProfileForm 
+    success_url   = reverse_lazy('profile')
     template_name = 'registration/profile_form.html'
+
+    def get_object(self):
+        profile, _ = Profile.objects.get_or_create(user=self.request.user)
+        return profile
