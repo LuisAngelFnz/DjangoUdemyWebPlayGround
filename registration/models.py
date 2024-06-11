@@ -1,7 +1,8 @@
+import os
 from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save,pre_save    
 
 class Profile(models.Model):
     user    = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -14,3 +15,10 @@ def ensure_profile_exists(sender, instance, **kwargs):
     if kwargs.get('created'):
         Profile.objects.get_or_create(user=instance)
         print('Se acaba de crear un usuario y su perfil enlazado')
+
+@receiver(pre_save, sender=Profile)
+def delete_image_avatar(sender, instance, **kwargs):
+    if not kwargs.get('created'):
+        oldAvatar = Profile.objects.get(pk=instance.pk).avatar
+        if oldAvatar and os.path.isfile(oldAvatar.path):
+            os.remove(oldAvatar.path)
