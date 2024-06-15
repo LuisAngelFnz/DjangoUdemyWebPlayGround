@@ -1,0 +1,44 @@
+{% extends "core/base.html" %}
+{% block title %}Perfiles{% endblock %}
+{% block content %}
+    <main role="container">
+        <div class="container">
+            <div class="row mb-5 mt-4 justify-content-center">
+                <h3>Perfiles Públicos</h3>
+            </div>
+            <div class="row mb-4">
+                <div class="col"><b>Usuario</b></div>
+                <div class="col"><b>Biografia</b></div>
+                <div class="col"><b>Link</b></div>
+                <div class="col-2"><b>Acciones</b></div>
+            </div>
+            {% for eachRecord in object_list %}
+                <div class="row mb-2 align-items-center" style="background-color:{% cycle '#ECEAEA' 'None' %}">
+                    <div class="col">
+                        {{ eachRecord.user.username }}
+                    </div>
+                    
+                    <div class="col">
+                        {% if eachRecord.bio %}
+                            <p>{{eachRecord.bio|striptags|safe|truncatechars:"200"}}</p>
+                        {% else %}
+                            Sin biografia
+                        {% endif %}
+                    </div>
+
+                    <div class="col">
+                        {% if eachRecord.link %}
+                            <a>{{eachRecord.bio|striptags|safe|truncatechars:"200"}}</a>
+                        {% else %}
+                            Sin link
+                        {% endif %}
+                    </div>
+
+                    <div class="col-2">
+                        <a href="" class="btn btn-primary">Ver más</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+{% endblock content %}
