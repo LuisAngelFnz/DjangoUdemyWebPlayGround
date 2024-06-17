@@ -35,7 +35,7 @@
                     </div>
 
                     <div class="col-2">
-                        <a href="" class="btn btn-primary">Ver más</a>
+                        <a href="{% url "profiles:detail" eachRecord.user.username %}" class="btn btn-primary">Ver más</a>
                     </div>
                 </div>
             {% endfor %}
