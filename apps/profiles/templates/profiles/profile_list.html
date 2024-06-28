@@ -1,44 +1,42 @@
 {% extends "core/base.html" %}
+{% load static %}
 {% block title %}Perfiles{% endblock %}
 {% block content %}
     <main role="container">
-        <div class="container">
-            <div class="row mb-5 mt-4 justify-content-center">
+        <div class="container-fluid">
+            <div class="row mb-5 justify-content-md-center">
                 <h3>Perfiles Públicos</h3>
             </div>
-            <div class="row mb-4">
-                <div class="col"><b>Usuario</b></div>
-                <div class="col"><b>Biografia</b></div>
-                <div class="col"><b>Link</b></div>
-                <div class="col-2"><b>Acciones</b></div>
-            </div>
-            {% for eachRecord in object_list %}
-                <div class="row mb-2 align-items-center" style="background-color:{% cycle '#ECEAEA' 'None' %}">
-                    <div class="col">
-                        {{ eachRecord.user.username }}
-                    </div>
-                    
-                    <div class="col">
-                        {% if eachRecord.bio %}
-                            <p>{{eachRecord.bio|striptags|safe|truncatechars:"200"}}</p>
-                        {% else %}
-                            Sin biografia
-                        {% endif %}
-                    </div>
+            
+            {% if profile_list %}
+                <div class="row mb-5 justify-content-center">
+            {% endif %}
 
-                    <div class="col">
-                        {% if eachRecord.link %}
-                            <a>{{eachRecord.bio|striptags|safe|truncatechars:"200"}}</a>
-                        {% else %}
-                            Sin link
-                        {% endif %}
+            {% for eachRecord in profile_list %}
+                {% if forloop.counter|divisibleby:4 %}
                     </div>
-
-                    <div class="col-2">
-                        <a href="{% url "profiles:detail" eachRecord.user.username %}" class="btn btn-primary">Ver más</a>
+                    <div class="row mb-5 gap-3 justify-content-center">
+                {% endif %}
+                <div class="col-3">
+                    <div class="row">
+                        <div class="col-5">
+                            {% if eachRecord.avatar %}
+                                <img src="{{eachRecord.avatar.url}}" class="img-fluid">
+                            {% else %}
+                                <img src="{% static 'registration/img/no-avatar.jpg' %}" class="img-fluid">
+                            {% endif %}
+                        </div>
+                        <div class="col">
+                            <h4>{{ eachRecord.user.username }}</h4>
+                            <a href="{% url "profiles:detail" eachRecord.user.username %}">Ver más</a>
+                        </div>
                     </div>
                 </div>
             {% endfor %}
+            
+            {% if profile_list %}
+                </div">
+            {% endif %}
         </div>
     </main>
 {% endblock content %}

@@ -24,7 +24,7 @@
                         Enlace:
                         <input value="{% if object.link %}{{ object.link }}{% else %}{% endif %}" type="url" class="form-control mb-3" maxlength="200" readonly>
                         Email:
-                        <input value="{{ request.user.email }}" type="email" class="form-control mb-3" readonly>
+                        <input value="{{ object.user.email }}" type="email" class="form-control mb-3" readonly>
                         <a href="{% url "profiles:profiles" %}">
                             <input value="Regresar" class="form-control btn btn-primary" type="button">
                         </a>
