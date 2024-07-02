@@ -1,10 +1,39 @@
 {% extends "core/base.html" %}
 {% load static %}
 {% block title %}Perfiles{% endblock %}
+{% block customCSS %}
+    <style>.profile-avatar{float:left; width:4rem; height:4rem}</style>
+{% endblock customCSS %}
 {% block content %}
-    <main role="container">
-        <div class="container-fluid">
-            <div class="row mb-5 justify-content-md-center">
+    <main role="main">
+        <div class="container">
+            <div class="row mt-3">
+                <div class="col-md-9 mx-auto mb-5">
+                    <h3>Perfiles</h3>
+                    <div class="row">
+                        {% for eachRecord in profile_list %}
+                        <div class="col-md-4 mt-2 mb-3">
+                            <div class="row p-3">
+                                <div class="col-md-8">
+                                    {% if eachRecord.avatar %}
+                                        <img src="{{eachRecord.avatar.url}}" class="img-fluid profile-avatar">
+                                    {% else %}
+                                        <img src="{% static 'registration/img/no-avatar.jpg' %}" class="img-fluid profile-avatar">
+                                    {% endif %}
+                                </div>
+                                <div class="col-">
+                                    <p class="profile-data">
+                                        <h4>{{ eachRecord.user|truncatechars:"16" }}</h4>
+                                        <a href="{% url "profiles:detail" eachRecord.user %}">Ver más</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% comment %} <div class="row mb-5 justify-content-md-center">
                 <h3>Perfiles Públicos</h3>
             </div>
             
@@ -36,7 +65,7 @@
             
             {% if profile_list %}
                 </div">
-            {% endif %}
+            {% endif %} {% endcomment %}
         </div>
     </main>
 {% endblock content %}
