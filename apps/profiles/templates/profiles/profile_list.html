@@ -2,70 +2,56 @@
 {% load static %}
 {% block title %}Perfiles{% endblock %}
 {% block customCSS %}
-    <style>.profile-avatar{float:left; width:4rem; height:4rem}</style>
+    <style>
+        .profile-avatar{
+            object-fit: cover;
+            {% comment %} float  : left; {% endcomment %}
+            {% comment %} max-height:8rem; {% endcomment %}
+            
+            {% comment %} min-height:5rem; {% endcomment %}
+            {% comment %} height : 8rem !important; {% endcomment %}
+            {% comment %} position: relative;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            z-index: 1;" {% endcomment %}
+        }
+        {% comment %} .profile-data{
+            padding-left: 4.5rem;
+            padding-top :  .4rem;
+        } {% endcomment %}
+    </style>
 {% endblock customCSS %}
 {% block content %}
     <main role="main">
         <div class="container">
             <div class="row mt-3">
-                <div class="col-md-9 mx-auto mb-5">
+                <div class="col-md-9 mx-auto">
                     <h3>Perfiles</h3>
                     <div class="row">
                         {% for eachRecord in profile_list %}
-                        <div class="col-md-4 mt-2 mb-3">
-                            <div class="row p-3">
-                                <div class="col-md-8">
-                                    {% if eachRecord.avatar %}
-                                        <img src="{{eachRecord.avatar.url}}" class="img-fluid profile-avatar">
-                                    {% else %}
-                                        <img src="{% static 'registration/img/no-avatar.jpg' %}" class="img-fluid profile-avatar">
-                                    {% endif %}
-                                </div>
-                                <div class="col-">
-                                    <p class="profile-data">
-                                        <h4>{{ eachRecord.user|truncatechars:"16" }}</h4>
+                            <div class="col-5 col-md-4 mt-2 mb-3">
+                                <div class="row p-1 align-items-center" style="background-color:red;">
+                                    <div class="col-4">
+                                        {% if eachRecord.avatar %}
+                                            <img src="{{eachRecord.avatar.url}}" class="img-fluid profile-avatar">
+                                        {% else %}
+                                            <img src="{% static 'registration/img/no-avatar.jpg' %}" class="img-fluid profile-avatar">
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-auto">
+                                        <b>{{ eachRecord.user|truncatechars:"16" }}</b><br>
                                         <a href="{% url "profiles:detail" eachRecord.user %}">Ver más</a>
-                                    </p>
+                                        {% comment %} <p class="profile-data">
+                                        </p> {% endcomment %}
+                                    </div>
+
                                 </div>
                             </div>
-                        </div>
                         {% endfor %}
                     </div>
                 </div>
             </div>
-            {% comment %} <div class="row mb-5 justify-content-md-center">
-                <h3>Perfiles Públicos</h3>
-            </div>
-            
-            {% if profile_list %}
-                <div class="row mb-5 justify-content-center">
-            {% endif %}
-
-            {% for eachRecord in profile_list %}
-                {% if forloop.counter|divisibleby:4 %}
-                    </div>
-                    <div class="row mb-5 gap-3 justify-content-center">
-                {% endif %}
-                <div class="col-3">
-                    <div class="row">
-                        <div class="col-5">
-                            {% if eachRecord.avatar %}
-                                <img src="{{eachRecord.avatar.url}}" class="img-fluid">
-                            {% else %}
-                                <img src="{% static 'registration/img/no-avatar.jpg' %}" class="img-fluid">
-                            {% endif %}
-                        </div>
-                        <div class="col">
-                            <h4>{{ eachRecord.user.username }}</h4>
-                            <a href="{% url "profiles:detail" eachRecord.user.username %}">Ver más</a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-            
-            {% if profile_list %}
-                </div">
-            {% endif %} {% endcomment %}
         </div>
     </main>
 {% endblock content %}
