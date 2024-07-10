@@ -9,6 +9,9 @@ class Profile(models.Model):
     avatar  = models.ImageField(upload_to='profiles', null=True, blank=True)
     bio     = models.TextField(null=True, blank=True)
     link    = models.URLField(max_length=200, null=True, blank=True)
+    
+    class Meta:
+        ordering = ('user__username',)
 
 @receiver(post_save, sender=User)
 def ensure_profile_exists(sender, instance, **kwargs):
