@@ -9,6 +9,9 @@ class Profile(models.Model):
     avatar  = models.ImageField(upload_to='profiles', null=True, blank=True)
     bio     = models.TextField(null=True, blank=True)
     link    = models.URLField(max_length=200, null=True, blank=True)
+    
+    class Meta:
+        ordering = ('user__username',)
 
 @receiver(post_save, sender=User)
 def ensure_profile_exists(sender, instance, **kwargs):
@@ -18,7 +21,14 @@ def ensure_profile_exists(sender, instance, **kwargs):
 
 @receiver(pre_save, sender=Profile)
 def delete_image_avatar(sender, instance, **kwargs):
-    if not kwargs.get('created'):
-        oldAvatar = Profile.objects.get(pk=instance.pk).avatar
-        if oldAvatar and os.path.isfile(oldAvatar.path):
-            os.remove(oldAvatar.path)
+    if kwargs.get('created'): return 
+    
+    oldProfile = Profile.objects.filter(pk=instance.pk)
+    if not oldProfile: return
+
+    oldProfile = oldProfile.get()
+    if instance.avatar and oldProfile.avatar:
+        if instance.avatar.path == oldProfile.avatar.path:
+            return
+    if oldProfile.avatar and os.path.isfile(oldProfile.avatar.path):
+        os.remove(oldProfile.avatar.path)
