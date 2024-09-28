@@ -10,12 +10,24 @@ class Message(models.Model):
     class Meta:
         ordering = ('created', )
 
+class ThreadManager(models.Manager):
+    def find(self, userOne, userTwo):
+        querySet = self.filter(users=userOne).filter(users=userTwo)
+        if querySet.count() == 1:
+            return querySet.first()
+
+    def findOrCreate(self, userOne, userTwo):
+        thread = self.find(userOne, userTwo)
+        if thread is None:        
+            thread = Thread.objects.create()
+            thread.users.add(userOne, userTwo)
+        return thread
 
 class Thread(models.Model):
 
     users = models.ManyToManyField(User, related_name='threads')
     messages = models.ManyToManyField(Message)
-
+    objects = ThreadManager()
 
 def messageChanged(sender, **kwargs):
     instance = kwargs.pop('instance',None)
