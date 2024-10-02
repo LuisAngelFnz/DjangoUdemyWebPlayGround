@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path,include
 from pages.urls import pages_urlpatterns
 from profiles.urls import profiles_urlpatterns
+from threads.urls import threads_urlpatters
 from django.conf import settings
 
 urlpatterns = [
@@ -25,6 +26,7 @@ urlpatterns = [
     path('', include('core.urls')),
     path('pages/', include((pages_urlpatterns,'pages'))),
     path('profiles/', include((profiles_urlpatterns,'profiles'))),
+    path('threads/', include((threads_urlpatters, 'threads'))),
     ##Auth paths
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('registration.urls'))
