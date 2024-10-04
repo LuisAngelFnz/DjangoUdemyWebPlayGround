@@ -8,6 +8,7 @@ from .models import Thread
 
 @method_decorator(login_required, name='dispatch')
 class ThreadList(ListView):
+    # template_name = 'templates/thread_list.html'
     model = Thread
     def get_queryset(self):
         querySet = super().get_queryset()
