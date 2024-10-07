@@ -59,6 +59,48 @@
               {% endfor %}
             </div>
             <!-- Aquí crearemos el formulario -->
+            <textarea id="messageContent" class="form-control mb-3" placeholder="Escribe un mensaje"></textarea>
+            <button id="sendMessage" class="btn btn-primary btn-block" disabled>Enviar</button>
+              <script>
+                const btnMessage = document.getElementById('sendMessage');
+                btnMessage.addEventListener('click', function(){
+                  const comContent = document.getElementById('messageContent')
+                  const content = comContent.value.trim();
+                  const url = "{% url 'threads:addMessage' object.pk %}"+"?content="+encodeURIComponent(content);;
+                  
+                  fetch(url, {'credentials':'include'}).then(
+                    response => response.json()
+                  ).then(data => {
+                    if(data['created']){
+                      const thread = document.getElementById('thread');
+                      const message = document.createElement('div');
+                      message.classList.add('mine','mb-3');
+                      message.innerHTML = '<small><i>Hace segundos</i></small>'+`<br>${content}`;
+                      thread.appendChild(message)
+                      btnMessage.disabled = true;
+                      scrollToBottom();
+                      comContent.value = '';
+                      comContent.focus();
+                    }
+                  })
+
+                });
+                const messageContent = document.getElementById('messageContent');
+                messageContent.addEventListener('keyup', function(){
+                  if(this.checkValidity() && this.value.trim() !==  ''){
+                    btnMessage.disabled = false;
+                  }else{
+                    btnMessage.disabled = true;
+                  }
+                });
+
+                function scrollToBottom() {
+                  const thread = document.getElementById('thread')
+                  thread.scrollTop = thread.scrollHeight;
+                }
+
+                scrollToBottom();
+              </script>
           </div>
         </div>
     </div>
