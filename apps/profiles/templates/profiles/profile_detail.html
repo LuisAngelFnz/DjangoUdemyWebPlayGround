@@ -15,6 +15,9 @@
                         {% else %}
                             <img src="{% static 'registration/img/no-avatar.jpg' %}" class="img-fluid">
                         {% endif %}
+                        {% if user.is_authenticated %}
+                            <button class="btn btn-primary btn-block mt-3">{% if threadExist %}Ir al hilo{% else %} Iniciar Hilo{% endif %}</button>
+                        {% endif %}
                     </div>
                     <!-- Formulario -->
                     <div class="col-md-10">
