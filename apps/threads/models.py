@@ -24,7 +24,6 @@ class ThreadManager(models.Manager):
         return thread
 
 class Thread(models.Model):
-
     users = models.ManyToManyField(User, related_name='threads')
     messages = models.ManyToManyField(Message)
     objects = ThreadManager()
@@ -39,4 +38,5 @@ def messageChanged(sender, **kwargs):
             message = Message.objects.get(pk=msg_pk)
             if message.user not in instance.users.all():
                 pk_set.remove(msg_pk)
+
 m2m_changed.connect(messageChanged, sender=Thread.messages.through)

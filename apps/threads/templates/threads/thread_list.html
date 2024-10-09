@@ -15,24 +15,24 @@
                         <!-- Recorremos los Threads y sólo mostramos los que tienen como mínimo 1 mensaje -->
                         {% for thread in request.user.threads.all %}
                             {% if thread.messages.all|length > 0 %}
-                            <div class="mb-3">
-                                <!-- Recorremos los miembros del hilo menos el propio request.user -->
-                                {% for user in thread.users.all %}
-                                {% if user != request.user %}   
-                                    <!-- Mostramos el avatar del miembro -->  
-                                    {% if user.profile.avatar %}
-                                    <img src="{{user.profile.avatar.url}}" class="avatar">
-                                    {% else %}
-                                    <img src="{% static 'registration/img/no-avatar.jpg' %}" class="avatar">
-                                    {% endif %}
-                                    <!-- Mostramos la información del miembro -->
-                                    <div>
-                                    <a href="{% url 'threads:detail' thread.pk %}">{{user}}</a><br>
-                                    <small><i>Hace {{thread.messages.last.created|timesince}}</i></small>
-                                    </div>
-                                {% endif %}
-                                {% endfor %}
-                            </div>
+                                <div class="mb-3">
+                                    <!-- Recorremos los miembros del hilo menos el propio request.user -->
+                                    {% for euser in thread.users.all %}
+                                        {% if euser != request.user %}   
+                                            <!-- Mostramos el avatar del miembro -->  
+                                            {% if euser.profile.avatar %}
+                                            <img src="{{euser.profile.avatar.url}}" class="avatar">
+                                            {% else %}
+                                                <img src="{% static 'registration/img/no-avatar.jpg' %}" class="avatar">
+                                            {% endif %}
+                                            <!-- Mostramos la información del miembro -->
+                                            <div>
+                                                <a href="{% url 'threads:detail' thread.pk %}">{{euser}}</a><br>
+                                                <small><i>Hace {{thread.messages.last.created|timesince}}</i></small>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
                             {% endif %}
                         {% endfor %}
                     </div>

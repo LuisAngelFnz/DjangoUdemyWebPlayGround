@@ -21,17 +21,17 @@
               {% if thread.messages.all|length > 0 %}
                 <div class="mb-3">
                   <!-- Recorremos los miembros del hilo menos el propio request.user -->
-                  {% for user in thread.users.all %}
-                    {% if user != request.user %}     
+                  {% for euser in thread.users.all %}
+                    {% if euser != request.user %}     
                       <!-- Mostramos el avatar del miembro -->                
-                      {% if user.profile.avatar %}
-                        <img src="{{user.profile.avatar.url}}" class="avatar">
+                      {% if euser.profile.avatar %}
+                        <img src="{{euser.profile.avatar.url}}" class="avatar">
                       {% else %}
                         <img src="{% static 'registration/img/no-avatar.jpg' %}" class="avatar">
                       {% endif %}
                       <!-- Mostramos la información del miembro --> 
                       <div>
-                        <a href="{% url 'threads:detail' thread.pk %}">{{user}}</a><br>
+                        <a href="{% url 'threads:detail' thread.pk %}">{{euser}}</a><br>
                         <small><i>Hace {{thread.messages.last.created|timesince}}</i></small>
                       </div>
                     {% endif %}
@@ -43,9 +43,9 @@
           <!-- Hilo de conversación -->
           <div class="col-md-8">
             <!-- Recorremos los miembros del hilo menos el propio request.user -->
-            {% for user in thread.users.all %}
-              {% if user != request.user %}       
-                <h4 class="mb-4">Mensajes con <a href="{% url 'profiles:detail' user %} ">{{user}}</a></h4>
+            {% for euser in thread.users.all %}
+              {% if euser != request.user %}       
+                <h4 class="mb-4">Mensajes con <a href="{% url 'profiles:detail' euser %} ">{{euser}}</a></h4>
               {% endif %}
             {% endfor %}
             <!-- Mostramos los mensajes en una capa que tiene un overflow vertical de 300 píxeles -->
@@ -72,15 +72,19 @@
                     response => response.json()
                   ).then(data => {
                     if(data['created']){
-                      const thread = document.getElementById('thread');
-                      const message = document.createElement('div');
-                      message.classList.add('mine','mb-3');
-                      message.innerHTML = '<small><i>Hace segundos</i></small>'+`<br>${content}`;
-                      thread.appendChild(message)
-                      btnMessage.disabled = true;
-                      scrollToBottom();
-                      comContent.value = '';
-                      comContent.focus();
+                      if(data.first){
+                        window.location.href = "{% url 'threads:detail' object.pk %}"
+                      }else{
+                        const thread = document.getElementById('thread');
+                        const message = document.createElement('div');
+                        message.classList.add('mine','mb-3');
+                        message.innerHTML = '<small><i>Hace segundos</i></small>'+`<br>${content}`;
+                        thread.appendChild(message)
+                        btnMessage.disabled = true;
+                        scrollToBottom();
+                        comContent.value = '';
+                        comContent.focus();
+                      }
                     }
                   })
 
