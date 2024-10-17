@@ -48,16 +48,18 @@
                 <h4 class="mb-4">Mensajes con <a href="{% url 'profiles:detail' euser %} ">{{euser}}</a></h4>
               {% endif %}
             {% endfor %}
+            
             <!-- Mostramos los mensajes en una capa que tiene un overflow vertical de 300 píxeles -->
             <div class="thread" id="thread">
               {% for message in object.messages.all %}
                 <!-- Dependiendo del usuario asignamos una clase con un color de fondo u otro en el mensaje -->
                 <div {% if request.user == message.user %}class="mine mb-3"{% else %}class="other mb-3"{% endif %}>
-                  <small><i>Hace {{thread.messages.last.created|timesince}}</i></small><br>
+                  <small><i>Hace {{message.created|timesince}}</i></small><br>
                   {{message.content}}
                 </div>
               {% endfor %}
             </div>
+            
             <!-- Aquí crearemos el formulario -->
             <textarea id="messageContent" class="form-control mb-3" placeholder="Escribe un mensaje"></textarea>
             <button id="sendMessage" class="btn btn-primary btn-block" disabled>Enviar</button>

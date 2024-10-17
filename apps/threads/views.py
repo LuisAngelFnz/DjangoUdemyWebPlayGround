@@ -38,7 +38,6 @@ def addMessage(request, pk):
 @login_required
 def startThread(request, username):
     user = get_object_or_404(User, username=username)
-    print('User get: {}'.format(user.username))
     thread = Thread.objects.findOrCreate(user, request.user)
     return redirect(reverse_lazy('threads:detail', args=[thread.pk]))
 
