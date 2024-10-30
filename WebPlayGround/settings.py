@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'apps.registration',
     'apps.pages',
     'apps.core',
+    'apps.threads',
     'apps.profiles',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -111,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es-mx'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Mexico_City'
 
 USE_I18N = True
 
@@ -141,3 +142,5 @@ else:
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+TEST_RUNNER = "redgreenunittest.django.runner.RedGreenDiscoverRunner"
