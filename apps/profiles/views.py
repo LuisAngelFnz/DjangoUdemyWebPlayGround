@@ -23,9 +23,11 @@ class DetailProfile(DetailView):
         context = super(DetailProfile, self).get_context_data(
             *args, **kwargs
         )
-        threadExist = bool(Thread.objects.find(
-            get_object_or_404(User, username=self.kwargs['username']),
-            self.request.user
-        ))
+        threadExist = False
+        if not self.request.user.is_anonymous:
+            threadExist = bool(Thread.objects.find(
+                get_object_or_404(User, username=self.kwargs['username']),
+                self.request.user
+            ))
         context['threadExist'] = threadExist
         return context
